@@ -1,47 +1,46 @@
-import  {useEffect, useState} from 'react';
+import React from 'react';
+import { useLoaderData } from 'react-router-dom';
 import Header from "../components/header/header";
 import style from "../style/_home.module.scss"
 
-const x = (s) => {
-    return s
+export async function loader() {
+    const API = 'https://jsonplaceholder.typicode.com/posts?userId=1';
+
+    try {
+        const response = await fetch(API);
+        if (!response.ok) throw new Error();
+
+        return await response.json();
+    } catch {
+        throw new Response(null, {
+            status: 500,
+            statusText: 'Internal Server Error',
+        });
+    }
 }
 
 
 const Home = ({number}) => {
+    const posts = useLoaderData();
+    console.log(posts)
 
-    const [count, setCount] = useState(number);
-    const [count1, setCount1] = useState(x(4));
-
-    // if (number) const [count2, setCount2] = useState(x(6));
-
-
-    useEffect(() => {
-        console.log("єффект без зависимости")
-        }
-    )
-
-    useEffect(() => {
-            console.log(count1)
-        }, [count]
-
-    )
-    console.log("в теле")
     return (
         <>
             <Header/>
             <main>
                 <div className={style.img}/>
                 <div>
-                    <p>Вы нажали {count} раз</p>
-                    <button onClick={() => setCount(pre => ++pre)}>
-                        Нажми на меня
-                    </button>
-                </div>
-                <div>
-                    <p>Вы нажали {count1} раз</p>
-                    <button onClick={() => setCount1(pre => ++pre)}>
-                        Нажми на меня
-                    </button>
+                    {posts?.length > 0 ? (
+                        <ul>
+                            {posts.map((post) => (
+                                <li key={`post-${post.id}`}>
+                                    {post.title}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No posts to show.</p>
+                    )}
                 </div>
             </main>
         </>

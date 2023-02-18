@@ -1,14 +1,18 @@
-import  { Fragment } from 'react'
-import {Router, Route, Switch} from 'react-router-dom'
-import { createBrowserHistory } from 'history'
-import Home from "./pages/home";
+import React from "react";
+import {createBrowserRouter} from 'react-router-dom'
+import Home, { loader as homeLoader } from "./pages/home";
+import Children from "./pages/children";
+import ErrorPage from "./error-page";
 
-export const App = () => (
-    <Fragment>
-        <Router history={createBrowserHistory()}>
-            <Switch>
-                <Route exact path="/" component={Home}/>
-            </Switch>
-        </Router>
-    </Fragment>
-)
+export const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Home number={2} />,
+        errorElement: <ErrorPage />,
+        loader: homeLoader,
+    },
+    {
+        path: "child",
+        element: <Children/>,
+    },
+]);

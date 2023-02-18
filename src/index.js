@@ -1,19 +1,16 @@
-import "./index.html";
-import "./index.scss";
-import Home from "./pages/home";
+import React from "react";
+import { RouterProvider } from "react-router-dom"
 import * as ReactDOM from "react-dom/client";
 
-function multiply(p=4,r=4,y=6) {
-    return p*r*y;
-}
-
-console.log(multiply(2,undefined,8));
+import "./index.html";
+import "./index.scss";
+import {router} from "./App";
 
 
-const root = ReactDOM.createRoot(
-    document.getElementById('App')
+
+
+ReactDOM.createRoot(document.getElementById("App")).render(
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
 );
-
-root.render(
-    <Home number={2} />
-)
