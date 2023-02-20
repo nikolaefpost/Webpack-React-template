@@ -25,7 +25,7 @@ module.exports = {
         hot: true
     },
     context: path.resolve(__dirname, homeDir),
-    entry: [ "@babel/polyfill", path.resolve(__dirname, homeDir, "index.js")],
+    entry: path.resolve(__dirname, homeDir, "index.tsx"),
     output: {
         path: path.resolve(__dirname, "dist"),
         clean: true,
@@ -108,17 +108,13 @@ module.exports = {
                 }
             },
             {
-                test: /\.m?js$/,
+                test: /\.m?tsx?$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-react', { targets: "defaults" }]
-                        ]
-                    }
-                }
+                use: 'ts-loader'
             }
         ],
     },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js', ".css", ".scss"],
+    }
 }

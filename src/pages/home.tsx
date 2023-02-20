@@ -1,9 +1,16 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import Header from "../components/header/header";
-import style from "../style/_home.module.scss"
+import style from "../style/_home.module.scss";
 
-export async function loader() {
+export interface RootObject {
+    userId: number;
+    id: number;
+    title: string;
+    body: string;
+}
+
+export const loader = async () => {
     const API = 'https://jsonplaceholder.typicode.com/posts?userId=1';
 
     try {
@@ -20,8 +27,8 @@ export async function loader() {
 }
 
 
-const Home = ({number}) => {
-    const posts = useLoaderData();
+const Home = () => {
+    const posts = useLoaderData() as unknown as RootObject[];
     console.log(posts)
 
     return (
@@ -30,7 +37,7 @@ const Home = ({number}) => {
             <main>
                 <div className={style.img}/>
                 <div>
-                    {posts?.length > 0 ? (
+                    {posts && posts?.length > 0 ? (
                         <ul>
                             {posts.map((post) => (
                                 <li key={`post-${post.id}`}>
